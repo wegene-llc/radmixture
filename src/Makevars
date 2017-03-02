@@ -1,0 +1,2 @@
+CC = clang
+PKG_CFLAGS = -I../inst/include
