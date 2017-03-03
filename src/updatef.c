@@ -8,6 +8,9 @@
 
 
 SEXP updatef (SEXP n1, SEXP p1, SEXP K1, SEXP Rq0, SEXP Rf0, SEXP Rg) {
+    /*
+        Update F matrix.
+    */
     int n, p, K;
     int i, j, k, m;
     double a, b, temp1, temp2;
