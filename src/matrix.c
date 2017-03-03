@@ -1,10 +1,18 @@
 #include <stdlib.h>
 #include <matrix.h>
+
 void free_matrix(Matrix* m) {
+    /*
+        Free memory space.
+    */
     free(m->data);
     free(m);
 }
+
 Matrix* init_matrix(int row, int col, double* data) {
+    /*
+        Initialize a matrix structure.
+    */
     Matrix* m;
     int i,j;
     m = (Matrix *)malloc(sizeof(Matrix));
