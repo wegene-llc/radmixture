@@ -16,8 +16,10 @@ fFixQN(gnew, qnew, f, tol = 1e-04, method = c("EM", "BR"), pubdata = NULL)
 \item{tol}{Tolerance, the default value is 1e-4.}
 
 \item{method}{Choose which algorithm you want to use. EM or BR.}
+
+\item{pubdata}{You can choose a public dataset here, E11 or K13. You also can use other public
+dataset which is not in this package.}
 }
 \description{
 qn for fixed F
 }
-

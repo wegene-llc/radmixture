@@ -228,3 +228,40 @@ gg <- function(ped, f) {
     f <- f[, -del]
     return(list(g = g, f = f, del = del))
 }
+
+tfrd <- function(genotype, map, referenceped, f) {
+    cha <- paste(genotype[, 2], genotype[, 3], sep = ",")
+    cha1 <- paste(map[, 1], map[, 2], sep = ",")
+    overlap <- intersect(cha, cha1)
+    index_user <- match(overlap, cha)
+    index_wg <- match(overlap, cha1)
+    ped <- referenceped[, - (1:6)] %>%
+        as.matrix()
+    ped <- ped[, indp(index_wg)]
+    f <- f[, index_wg]
+    genotype <- genotype[index_user, 4]
+    genotype <- as.character(genotype)
+    newped <- paste(genotype, collapse = "") %>%
+        strsplit(split = "") %>%
+        unlist()
+    newped[newped == "A"] <- 1
+    newped[newped == "C"] <- 2
+    newped[newped == "G"] <- 3
+    newped[newped == "T"] <- 4
+    newped[newped == "-"] <- 0
+    newped[newped == "_"] <- 0
+    newped[newped == "I"] <- 0
+    newped <- as.numeric(newped)
+    del <- which(is.na(newped))
+    newped[del] <- 0
+    ped <- rbind(ped, newped)
+    gf <- gg(ped, f)
+    if (ncol(gf$g) < 40000) {
+        warning("The number of SNPs is
+                inappropriate for ancestry estimation!")
+    } else if (ncol(gf$g) < 50000) {
+        warning("The number of SNPs used for calculating is small,
+                so your result might be unreasonable!")
+    }
+    return(list(g = gf$g, f = gf$f))
+    }

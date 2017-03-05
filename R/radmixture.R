@@ -7,6 +7,7 @@
 #' @importFrom quadprog solve.QP
 #' @importFrom plyr count
 #' @importFrom magrittr %>%
+#' @importFrom MCMCpack rdirichlet
 #' @import utils
 #' @useDynLib radmixture
 

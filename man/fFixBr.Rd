@@ -18,8 +18,10 @@ fFixBr(gnew, qnew, f, acc, max.iter = 3, tol = 1e-04, pubdata = NULL)
 \item{max.iter}{If acc = T, max.iter must be set, the default is 3.}
 
 \item{tol}{If acc = F, tolerance must be set, the default is 1e-4.}
+
+\item{pubdata}{You can choose a public dataset here, E11 or K13. You also can use other public
+dataset which is not in this package.}
 }
 \description{
 block relaxation with fixed F
 }
-

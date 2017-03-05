@@ -5,7 +5,7 @@
 \title{quasi-Newton acceleration}
 \usage{
 qn(g, q, f, tol = 1e-04, method = c("EM", "BR"), model = c("supervised",
-  "unsupervised"), pubdata = NULL)
+  "unsupervised"))
 }
 \arguments{
 \item{g}{Genotype matrix with dimensions \eqn{n × p}, where n is sample size
@@ -29,4 +29,3 @@ Estimation results of q, f and the loglikelihood value of each iteration.
 \description{
 Use quasi-Newton algorithm to accelerate EM or block relaxation.
 }
-

@@ -1,46 +1,93 @@
-#' Transfer raw genotype file for admixture
-#' @param genotype A data frame which contains your genotype information. It should have 4 columns,
-#' the first column is rsid, second is chromosome, third is position and the forth is genotype.
-#' @param map Index file, it should contain rsid, choromosome and position.
-#' @param referenceped ped file for your reference data.
-#' @param f Initial frequency matrix matches your ped file.
-#' @return A list which contains genotype matrix and frequency matrix.
+#' Transfer ped file to genotype matrix
+#' @param referenceped ped file for your reference panel
+#' @return genotype
 #' @export
-tfrd <- function(genotype, map, referenceped, f) {
-        cha <- paste(genotype[, 2], genotype[, 3], sep = ",")
-        cha1 <- paste(map[, 1], map[, 2], sep = ",")
-        overlap <- intersect(cha, cha1)
-        index_user <- match(overlap, cha)
-        index_wg <- match(overlap, cha1)
-        ped <- referenceped[, - (1:6)] %>%
-            as.matrix()
-        ped <- ped[, indp(index_wg)]
-        f <- f[, index_wg]
-        genotype <- genotype[index_user, 4]
-        genotype <- as.character(genotype)
-        newped <- paste(genotype, collapse = "") %>%
-            strsplit(split = "") %>%
-            unlist()
-        newped[newped == "A"] <- 1
-        newped[newped == "C"] <- 2
-        newped[newped == "G"] <- 3
-        newped[newped == "T"] <- 4
-        newped[newped == "-"] <- 0
-        newped[newped == "_"] <- 0
-        newped[newped == "I"] <- 0
-        newped <- as.numeric(newped)
-        del <- which(is.na(newped))
-        newped[del] <- 0
-        ped <- rbind(ped, newped)
-        gf <- gg(ped, f)
-        if (ncol(gf$g) < 40000) {
-            warning("The number of SNPs is
-                    inappropriate for ancestry estimation!")
-        } else if (ncol(gf$g) < 50000) {
-            warning("The number of SNPs used for calculating is small,
-                    so your result might be unreasonable!")
+
+generateG <- function(referenceped) {
+    ped <- referenceped[, -(1:6)]
+    # calculate allele counts
+    a1 <- ped[, seq(1, ncol(ped) - 1, 2)]
+    a2 <- ped[, seq(2, ncol(ped), 2)]
+    a1 <- as.matrix(a1)
+    a2 <- as.matrix(a2)
+    a <- rbind(a1, a2)
+    # find major allele
+    major <- rep(NA, ncol(a))
+    minor <- rep(NA, ncol(a))
+    del <- numeric()
+    for(i in 1:ncol(a)) {
+        freqco <- count(a[, i])
+        if(nrow(freqco) != 2 || freqco[1, 2] == freqco[2, 2] || 0 %in% freqco[, 1]) {
+            del[i] <- i
+            major[i] <- NA
+            minor[i] <- NA
+        } else {
+            major[i] <- freqco[which.max(freqco[, 2]), 1]
+            minor[i] <- freqco[which.min(freqco[, 2]), 1]
         }
-        return(list(g = gf$g, f = gf$f))
+    }
+    del <- which(!is.na(del))
+    # generate two genotypes
+    a1 <- a1[, -del]
+    a2 <- a2[, -del]
+    a <- a[, -del]
+    major <- major[-del]
+    minor <- minor[-del]
+    genotype <- matrix(NA, 2, ncol(a))
+    genotype[1, ] <- 10 * major + major
+    genotype[2, ] <- 10 * minor + minor
+    # generate G matrix
+    genotype1 <- 10 * a1 + a2
+    g <- matrix(NA, nrow(ped), ncol(a))
+    for (i in 1:ncol(a)) {
+        g[which(genotype1[, i] == genotype[1, i]), i] <- 0
+        g[which(genotype1[, i] == genotype[2, i]), i] <- 2
+    }
+    g[is.na(g)] <- 1
+    return(g = g)
+}
+
+#' Initialize Q and F
+#' @param g genotype matrix
+#' @param pop A data frame. If you intend to do supervised learning, 
+#' you must specify the ancestries of the reference individuals.
+#' @param K If you intend to do unsupervised learning, 
+#' set the number of populations you will use.
+#' @param model Choose supervised or unsupervised learning
+#' @export
+
+initQF <- function(g, pop = NULL, K = NULL, model = c("supervised", "unsupervised")) {
+    if (is.data.frame(g)) {
+        g <- as.matrix(g)
+    }
+    if (model != "supervised" && model != "unsupervised") {
+       stop("You must choose one model")
+    }
+    if (model == "supervised" && is.null(pop)) {
+        stop("pop is needed under supervised learning")
+    }
+    if (model == "unsupervised" && is.null(K)) {
+        stop("You must set up K for unsupervised learning")
+    }
+    if (model == "supervised") {
+        pop1 <- as.character(pop[, 1]) %>%
+            unique()
+        num <- length(pop1) - 1
+        q <- matrix(NA, nrow(pop), num)
+        for(i in 1:num) {
+            q[which(pop[, 1] == pop1[i]), i] <- 1 - 1e-5 * (num - 1)
+        }
+        q[nrow(q), ] <- rep(1 / num, num)
+        q[is.na(q)] <- 1e-5
+        f <- matrix(NA, num, ncol(g))
+        for(i in 1:num) {
+            f[i, ] <- colSums(g[which(pop[, 1] == pop1[i]), ]) / (2 * length(which(pop[, 1] == pop1[i])))
+        }
+    } else if (model == "unsupervised") {
+        q <- rdirichlet(nrow(g), rep(10, K))
+        f <- (t(q) %*% g) / (2 * nrow(g))
+    }
+    return(list(q = q, f = f))
 }
 
 #' transfer raw genotype file for f fixed admixture. Mostly for public dataset.

@@ -18,6 +18,9 @@ fFixEm(gnew, qnew, f, acc, max.iter = 3, tol = 1e-04, pubdata = NULL)
 \item{max.iter}{an integer. If acc is TRUE, the number of iterations must be set.}
 
 \item{tol}{Tolerance. If acc is FALSE, tol must be set. The default is 1e-4.}
+
+\item{pubdata}{You can choose a public dataset here, E11 or K13. You also can use other public
+dataset which is not in this package.}
 }
 \value{
 Estimation results of q and the loglikelihood value of each iteration.
@@ -26,4 +29,3 @@ Estimation results of q and the loglikelihood value of each iteration.
 This function is for projection analysis which is an efficient way
 of estimating individual ancestry  with allele frequencies learned from the reference panels.
 }
-

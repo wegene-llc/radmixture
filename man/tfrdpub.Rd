@@ -22,4 +22,3 @@ A list contains g, q, f which can be used for calculation.
 \description{
 transfer raw genotype file for f fixed admixture. Mostly for public dataset.
 }
-
