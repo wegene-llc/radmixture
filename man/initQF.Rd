@@ -4,13 +4,18 @@
 \alias{initQF}
 \title{Initialize Q and F}
 \usage{
-initQF(g, pop = NULL, K = NULL, model = c("supervised", "unsupervised"))
+initQF(g, pop = NULL, alpha = NULL, K = NULL, model = c("supervised",
+  "unsupervised"))
 }
 \arguments{
 \item{g}{genotype matrix}
 
 \item{pop}{A data frame. If you intend to do supervised learning, 
 you must specify the ancestries of the reference individuals.}
+
+\item{alpha}{Parameter for dirichlet distribution.
+Vector of shape parameters, or matrix of shape
+parameters corresponding to the number of draw.}
 
 \item{K}{If you intend to do unsupervised learning, 
 set the number of populations you will use.}
@@ -20,3 +25,4 @@ set the number of populations you will use.}
 \description{
 Initialize Q and F
 }
+

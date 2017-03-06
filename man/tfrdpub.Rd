@@ -2,7 +2,7 @@
 % Please edit documentation in R/tfrd.R
 \name{tfrdpub}
 \alias{tfrdpub}
-\title{transfer raw genotype file for f fixed admixture. Mostly for public dataset.}
+\title{transfer raw genotype file for f fixed admixture.}
 \usage{
 tfrdpub(genotype, K, map, f)
 }
@@ -12,7 +12,7 @@ tfrdpub(genotype, K, map, f)
 \item{K}{the number of populations}
 
 \item{map}{Index file, it should contain rsid, choromosome position,
-major allele and minor allele information.}
+major allele and minor allele information for both plus and minus strands.}
 
 \item{f}{Frequency matrix}
 }
@@ -20,5 +20,6 @@ major allele and minor allele information.}
 A list contains g, q, f which can be used for calculation.
 }
 \description{
-transfer raw genotype file for f fixed admixture. Mostly for public dataset.
+transfer raw genotype file for f fixed admixture.
 }
+

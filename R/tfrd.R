@@ -51,12 +51,15 @@ generateG <- function(referenceped) {
 #' @param g genotype matrix
 #' @param pop A data frame. If you intend to do supervised learning, 
 #' you must specify the ancestries of the reference individuals.
+#' @param alpha Parameter for dirichlet distribution.
+#' Vector of shape parameters, or matrix of shape
+#' parameters corresponding to the number of draw.
 #' @param K If you intend to do unsupervised learning, 
 #' set the number of populations you will use.
 #' @param model Choose supervised or unsupervised learning
 #' @export
 
-initQF <- function(g, pop = NULL, K = NULL, model = c("supervised", "unsupervised")) {
+initQF <- function(g, pop = NULL, alpha = NULL, K = NULL, model = c("supervised", "unsupervised")) {
     if (is.data.frame(g)) {
         g <- as.matrix(g)
     }
@@ -69,9 +72,15 @@ initQF <- function(g, pop = NULL, K = NULL, model = c("supervised", "unsupervise
     if (model == "unsupervised" && is.null(K)) {
         stop("You must set up K for unsupervised learning")
     }
+    if (model == "unsupervised" && is.null(alpha)) {
+        stop("You must set up alpha for unsupervised learning")
+    }
     if (model == "supervised") {
         pop1 <- as.character(pop[, 1]) %>%
             unique()
+        if (length(pop1) != nrow(g)) {
+            stop("Check the number of individuals!")
+        }
         num <- length(pop1) - 1
         q <- matrix(NA, nrow(pop), num)
         for(i in 1:num) {
@@ -84,17 +93,19 @@ initQF <- function(g, pop = NULL, K = NULL, model = c("supervised", "unsupervise
             f[i, ] <- colSums(g[which(pop[, 1] == pop1[i]), ]) / (2 * length(which(pop[, 1] == pop1[i])))
         }
     } else if (model == "unsupervised") {
-        q <- rdirichlet(nrow(g), rep(10, K))
+        q <- rdirichlet(nrow(g), rep(alpha, K))
         f <- (t(q) %*% g) / (2 * nrow(g))
     }
+    f[f == 0] <- lb
+    f[f == 1] <- ub
     return(list(q = q, f = f))
 }
 
-#' transfer raw genotype file for f fixed admixture. Mostly for public dataset.
+#' transfer raw genotype file for f fixed admixture.
 #' @param genotype A data frame contains your genotype information.
 #' @param K the number of populations
 #' @param map Index file, it should contain rsid, choromosome position,
-#' major allele and minor allele information.
+#' major allele and minor allele information for both plus and minus strands.
 #' @param f Frequency matrix
 #' @return A list contains g, q, f which can be used for calculation.
 #' @export
