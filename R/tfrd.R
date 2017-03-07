@@ -76,11 +76,11 @@ initQF <- function(g, pop = NULL, alpha = NULL, K = NULL, model = c("supervised"
         stop("You must set up alpha for unsupervised learning")
     }
     if (model == "supervised") {
-        pop1 <- as.character(pop[, 1]) %>%
-            unique()
-        if (length(pop1) != nrow(g)) {
+        if (nrow(pop) != nrow(g)) {
             stop("Check the number of individuals!")
         }
+        pop1 <- as.character(pop[, 1]) %>%
+            unique()
         num <- length(pop1) - 1
         q <- matrix(NA, nrow(pop), num)
         for(i in 1:num) {
@@ -121,7 +121,7 @@ tfrdpub <- function(genotype, K, map, f) {
     map <- map[mapindex, ]
     f <- f[mapindex, ]
     nocallindel <- which(genotype[, 4] == "--" |
-                             genotype[, 4] == "__" | genotype[, 4] == "II")
+                             genotype[, 4] == "__" | genotype[, 4] == "II" | genotype[, 4] == "DD")
     if (length(nocallindel) == 0) {
         g <- genotype
     } else {

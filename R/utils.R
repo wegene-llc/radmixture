@@ -251,6 +251,7 @@ tfrd <- function(genotype, map, referenceped, f) {
     newped[newped == "-"] <- 0
     newped[newped == "_"] <- 0
     newped[newped == "I"] <- 0
+    newped[newped == "D"] <- 0
     newped <- as.numeric(newped)
     del <- which(is.na(newped))
     newped[del] <- 0
