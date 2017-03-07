@@ -1,10 +1,11 @@
 #' Transfer ped file to genotype matrix
-#' @param referenceped ped file for your reference panel
+#' @param rawped ped file, genotype should be transferred to 1,2,3,4 from A,C,G,T, 0 represents missing.
+#' '-','_','I','D' should be replaced by 0 by yourself.
 #' @return genotype
 #' @export
 
-generateG <- function(referenceped) {
-    ped <- referenceped[, -(1:6)]
+generateG <- function(rawped) {
+    ped <- rawped[, -(1:6)]
     # calculate allele counts
     a1 <- ped[, seq(1, ncol(ped) - 1, 2)]
     a2 <- ped[, seq(2, ncol(ped), 2)]
@@ -90,7 +91,11 @@ initQF <- function(g, pop = NULL, alpha = NULL, K = NULL, model = c("supervised"
         q[is.na(q)] <- 1e-5
         f <- matrix(NA, num, ncol(g))
         for(i in 1:num) {
-            f[i, ] <- colSums(g[which(pop[, 1] == pop1[i]), ]) / (2 * length(which(pop[, 1] == pop1[i])))
+            if (is.null(nrow(g[which(pop[, 1] == pop1[i]), ]))) {
+                f[i, ] <- g[which(pop[, 1] == pop1[i]), ] / 2
+            } else {
+                f[i, ] <- colSums(g[which(pop[, 1] == pop1[i]), ]) / (2 * length(which(pop[, 1] == pop1[i])))
+            }
         }
     } else if (model == "unsupervised") {
         q <- rdirichlet(nrow(g), rep(alpha, K))

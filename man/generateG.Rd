@@ -4,10 +4,11 @@
 \alias{generateG}
 \title{Transfer ped file to genotype matrix}
 \usage{
-generateG(referenceped)
+generateG(rawped)
 }
 \arguments{
-\item{referenceped}{ped file for your reference panel}
+\item{rawped}{ped file, genotype should be transferred to 1,2,3,4 from A,C,G,T, 0 represents missing.
+'-','_','I','D' should be replaced by 0 by yourself.}
 }
 \value{
 genotype
@@ -15,3 +16,4 @@ genotype
 \description{
 Transfer ped file to genotype matrix
 }
+

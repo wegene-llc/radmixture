@@ -29,17 +29,21 @@ genotype <- read.table(file = '/path/to/file')
 ### Example
 
 - Use `tfrdpub()`to transfer your raw data to a format understood by radmixture
-
 ```r
+# Use K13
 res <- tfrdpub(genotype, 13, global13.alleles, global13.13.F)
+# Use E11
+res <- tfrdpub(genotype, 11, e11.alleles, e11.11.F)
 ```
 
 - Calculate
-
 ```r
-ances <- fFixQN(res$g, res$q, res$f, tol = 1e-4, method = 'BR', pubdata = "K13")
+# Use K13
+ances <- fFixQN(res$g, res$q, res$f, tol = 1e-4, method = "BR", pubdata = "K13")
+# Use E11
+ances <- fFixQN(res$g, res$q, res$f, tol = 1e-4, method = "BR", pubdata = "E11")
 ```
-`ances$q` is your K13 result.
+`ances$q` is your result.
 
 ### References
 
