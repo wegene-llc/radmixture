@@ -1,5 +1,6 @@
-#' Block Relaxation for ancestry estimation
+#' @title Block Relaxation for parameters estimation
 #' @description This function is also used for estimating Q and F but faster than EM.
+#' @usage br(g, q, f, acc, max.iter, tol, model)
 #' @param g Genotype matrix with dimensions \eqn{n × p}, where n is sample size
 #' and p is the number of SNPs.
 #' @param q Ancestry coefficient matrix with dimensions \eqn{n × K}, where n
@@ -14,9 +15,17 @@
 #' @export
 
 # block relaxation (sequential quadratic programming)
-br <- function(g, q, f, acc, max.iter = 3, tol = NULL,
+br <- function(g, q, f, acc, max.iter = 3, tol = 1e-4,
                model = c("supervised", "unsupervised")) {
-
+    if (!is.matrix(g)) {
+        stop("g should be a matrix")
+    }
+    if (!is.matrix(q)) {
+        stop("q should be a matrix")
+    }
+    if (!is.matrix(f)) {
+        stop("f should be a matrix")
+    }
    if (is.null(acc)) {
        stop("You must set a logical value for acc!")
    }
@@ -80,15 +89,19 @@ br <- function(g, q, f, acc, max.iter = 3, tol = NULL,
 }
 
 
-#' block relaxation with fixed F
-#' @param gnew Integer which length is the number of SNPs used in calculation.
-#' @param qnew Initial q used in calculation. Numeric. Sum(q) must be 1.
-#' @param f Allele frequencies learned from the reference panels.
+#' @title Block relaxation when f is fixed
+#' @description This function can be used for ancestry analysis when frequency matrix is fixed.
+#' @usage fFixBr(gnew, qnew, f, acc, max.iter, tol, pubdata)
+#' @param gnew Genotype matrix. The number of row present in gnew is 1 and the number
+#' of column is the number of SNPs.
+#' @param qnew Initial q used in calculation. A vector. Sum(q) must be 1.
+#' @param f Allele frequencies matrix learned from the reference panels.
 #' @param acc a logical value indicating whether use quasi-Newton accelerated BR or not.
 #' @param max.iter If acc = T, max.iter must be set, the default is 3.
 #' @param tol If acc = F, tolerance must be set, the default is 1e-4.
 #' @param pubdata You can choose a public dataset here, E11 or K13. You also can use other public
 #' dataset which is not in this package.
+#' @return Estimation results of q and the loglikelihood value of each iteration.
 #' @export
 
 fFixBr <- function(gnew, qnew, f, acc, max.iter = 3,

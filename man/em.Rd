@@ -4,8 +4,7 @@
 \alias{em}
 \title{Do ancestry analysis with EM algorithm}
 \usage{
-em(g, q, f, acc, max.iter = 3, tol = 1e-04, model = c("supervised",
-  "unsupervised"))
+em(g, q, f, acc, max.iter, tol, model)
 }
 \arguments{
 \item{g}{Genotype matrix with dimensions \eqn{n × p}, where n is sample size
@@ -23,7 +22,7 @@ where K is the number of populations and p is the number of SNPs.}
 
 \item{tol}{Tolerance. If acc is FALSE, tol must be set. The default is 1e-4.}
 
-\item{model}{choose which model you want to use. Supervised learning or unsupervised learning.}
+\item{model}{Choose which model you want to use. Supervised learning or unsupervised learning.}
 }
 \value{
 Estimation results of q, f and the loglikelihood value of each iteration.
@@ -31,3 +30,4 @@ Estimation results of q, f and the loglikelihood value of each iteration.
 \description{
 The EM algorithm could be used for estimating the Q and F matrix.
 }
+

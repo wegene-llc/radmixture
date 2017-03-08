@@ -1,5 +1,6 @@
-#' Do ancestry analysis with EM algorithm
-#' @description The EM algorithm could be used for estimating the Q and F matrix. 
+#' @title Do ancestry analysis with EM algorithm
+#' @description The EM algorithm could be used for estimating the Q and F matrix.
+#' @usage em(g, q, f, acc, max.iter, tol, model)
 #' @param g Genotype matrix with dimensions \eqn{n × p}, where n is sample size
 #' and p is the number of SNPs.
 #' @param q Ancestry coefficient matrix with dimensions \eqn{n × K}, where n
@@ -9,13 +10,22 @@
 #' @param acc a logical value indicating whether use accelerated EM or not.
 #' @param max.iter an integer. If acc is TRUE, the number of iterations must be set.
 #' @param tol Tolerance. If acc is FALSE, tol must be set. The default is 1e-4.
-#' @param model choose which model you want to use. Supervised learning or unsupervised learning.
+#' @param model Choose which model you want to use. Supervised learning or unsupervised learning.
 #' @return Estimation results of q, f and the loglikelihood value of each iteration.
 #' @export
 
 # The EM algorithm
 em <- function(g, q, f, acc, max.iter = 3, tol = 1e-4,
                model = c("supervised", "unsupervised")) {
+    if (!is.matrix(g)) {
+        stop("g should be a matrix")
+    }
+    if (!is.matrix(q)) {
+        stop("q should be a matrix")
+    }
+    if (!is.matrix(f)) {
+        stop("f should be a matrix")
+    }
     p <- ncol(f)
     n <- nrow(q)
     K <- ncol(q)
@@ -97,12 +107,13 @@ em <- function(g, q, f, acc, max.iter = 3, tol = 1e-4,
     }
 }
 
-#' EM for fixed F
-#' @description This function is for projection analysis which is an efficient way
-#' of estimating individual ancestry  with allele frequencies learned from the reference panels.
-#' @param gnew Integer which length is the number of SNPs used in calculation.
-#' @param qnew Initial q used in calculation. Numeric. Sum(q) must be 1.
-#' @param f Allele frequencies which was learned from the reference panels.
+#' @title EM when f is fixed
+#' @description This function can be used for ancestry analysis when frequency matrix is fixed.
+#' @usage fFixEm(gnew, qnew, f, acc, tol = 1e-4, pubdata)
+#' @param gnew Genotype matrix. The number of row present in gnew is 1 and the number
+#' of column is the number of SNPs.
+#' @param qnew Initial q used in calculation. A vector. sum(q) must be 1.
+#' @param f Allele frequencies learned from the reference panels.
 #' @param acc a logical value indicating whether use quasi-Newton accelerated EM or not.
 #' @param max.iter an integer. If acc is TRUE, the number of iterations must be set.
 #' @param tol Tolerance. If acc is FALSE, tol must be set. The default is 1e-4.

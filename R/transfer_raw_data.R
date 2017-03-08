@@ -1,10 +1,15 @@
-#' Transfer ped file to genotype matrix
-#' @param rawped ped file, genotype should be transferred to 1,2,3,4 from A,C,G,T. 0 represents missing.
+#' @title Transfer ped file to genotype matrix
+#' @description This function can be used to transfer a ped file to g matrix
+#' @usage generateG(rawped)
+#' @param rawped A data.frame. Standard ped format. Genotype should be transferred to 1,2,3,4 from A,C,G,T. 0 represents missing.
 #' '-','_','I','D' should be replaced by 0 by yourself.
-#' @return genotype
+#' @return genotype matrix
 #' @export
 
 generateG <- function(rawped) {
+    if (!is.data.frame(rawped)) {
+        stop("rawped must be a data frame!")
+    }
     ped <- rawped[, -(1:6)]
     # calculate allele counts
     a1 <- ped[, seq(1, ncol(ped) - 1, 2)]
@@ -29,11 +34,19 @@ generateG <- function(rawped) {
     }
     del <- which(!is.na(del))
     # generate two genotypes
-    a1 <- a1[, -del]
-    a2 <- a2[, -del]
-    a <- a[, -del]
-    major <- major[-del]
-    minor <- minor[-del]
+    if (length(del) == 0) {
+        a1 <- a1
+        a2 <- a2
+        a <- a
+        major <- major
+        minor <- minor
+    } else {
+        a1 <- a1[, -del]
+        a2 <- a2[, -del]
+        a <- a[, -del]
+        major <- major[-del]
+        minor <- minor[-del]
+    }
     genotype <- matrix(NA, 2, ncol(a))
     genotype[1, ] <- 10 * major + major
     genotype[2, ] <- 10 * minor + minor
@@ -48,16 +61,20 @@ generateG <- function(rawped) {
     return(g = g)
 }
 
-#' Initialize Q and F
+#' @title Initialize Q and F
+#' @description This function could help you initialize Q and F matrix conveniently especially when 
+#' you intend to use supervised learning.
+#' @usage initQF(g, pop, alpha = NULL, K = NULL, model = "supervised")
 #' @param g genotype matrix
-#' @param pop A data frame. If you intend to do supervised learning, 
+#' @param pop A data.frame. If you intend to do supervised learning, 
 #' you must specify the ancestries of the reference individuals.
 #' @param alpha Parameter for dirichlet distribution.
 #' Vector of shape parameters, or matrix of shape
 #' parameters corresponding to the number of draw.
-#' @param K If you intend to do unsupervised learning, 
+#' @param K If you intend to do unsupervised learning,
 #' set the number of populations you will use.
-#' @param model Choose supervised or unsupervised learning
+#' @param model Choose supervised or unsupervised learning.
+#' @return A list contains q and f matrix.
 #' @export
 
 initQF <- function(g, pop = NULL, alpha = NULL, K = NULL, model = c("supervised", "unsupervised")) {
@@ -106,18 +123,27 @@ initQF <- function(g, pop = NULL, alpha = NULL, K = NULL, model = c("supervised"
     return(list(q = q, f = f))
 }
 
-#' transfer raw genotype file for f fixed admixture.
-#' @param genotype A data frame contains your genotype information.
-#' @param K the number of populations
-#' @param map Index file, it should contain rsid, choromosome position,
-#' major allele and minor allele information for both plus and minus strands.
-#' @param f Frequency matrix
+#' @title Transfer personal genotype raw data according public dataset
+#' @description Transfer personal genotype raw data to g matrix which the number of row is 1 and
+#' the number of column is the number of SNPs used here.
+#' @usage tfrdpub(genotype, K, map, f)
+#' @param genotype A data.frame contains your genotype information.
+#' @param K The number of populations
+#' @param map A data.frame, it should contain rsid, major allele and minor allele 
+#' information for both plus and minus strands.
+#' @param f Frequency matrix learned from reference panel.
 #' @return A list contains g, q, f which can be used for calculation.
 #' @export
 
 tfrdpub <- function(genotype, K, map, f) {
+    if (!is.data.frame(genotype)) {
+        stop("genotype must be a data frame!")
+    }
     if (K != ncol(f)) {
         stop("The number of populations does not match F matrix you use!")
+    }
+    if (ncol(map) != 5) {
+        stop("Check the format of your map file!")
     }
     overlap <- intersect(genotype[, 1], map[, 1])
     gindex <- match(overlap, genotype[, 1])

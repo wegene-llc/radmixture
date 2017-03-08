@@ -13,3 +13,4 @@ This data set comes from Dodecad ancestry project.
 global.13.13.F is a frequency matrix used in K4.
 }
 \keyword{datasets}
+

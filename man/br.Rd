@@ -2,10 +2,9 @@
 % Please edit documentation in R/br.R
 \name{br}
 \alias{br}
-\title{Block Relaxation for ancestry estimation}
+\title{Block Relaxation for parameters estimation}
 \usage{
-br(g, q, f, acc, max.iter = 3, tol = NULL, model = c("supervised",
-  "unsupervised"))
+br(g, q, f, acc, max.iter, tol, model)
 }
 \arguments{
 \item{g}{Genotype matrix with dimensions \eqn{n × p}, where n is sample size
@@ -31,3 +30,4 @@ Estimation results of q, f and the loglikelihood value of each iteration.
 \description{
 This function is also used for estimating Q and F but faster than EM.
 }
+

@@ -2,14 +2,14 @@
 % Please edit documentation in R/qn.R
 \name{fFixQN}
 \alias{fFixQN}
-\title{qn for fixed F}
+\title{quasi-Newton when f is fixed}
 \usage{
-fFixQN(gnew, qnew, f, tol = 1e-04, method = c("EM", "BR"), pubdata = NULL)
+fFixQN(gnew, qnew, f, tol, method, pubdata)
 }
 \arguments{
 \item{gnew}{Integer which length is the number of SNPs used in calculation.}
 
-\item{qnew}{Initial q used in calculation. Numeric. Sum(q) must be 1.}
+\item{qnew}{Initial q used in calculation. A vector. Sum(q) must be 1.}
 
 \item{f}{Allele frequencies learned from the reference panels.}
 
@@ -20,6 +20,10 @@ fFixQN(gnew, qnew, f, tol = 1e-04, method = c("EM", "BR"), pubdata = NULL)
 \item{pubdata}{You can choose a public dataset here, E11 or K13. You also can use other public
 dataset which is not in this package.}
 }
-\description{
-qn for fixed F
+\value{
+Estimation results of q and the loglikelihood value of each iteration.
 }
+\description{
+quasi-Newton for ancestry analysis when F is fixed
+}
+

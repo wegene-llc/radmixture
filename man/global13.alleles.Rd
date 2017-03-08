@@ -13,3 +13,4 @@ This data set comes from Dodecad ancestry project.
 global13.alleles is a description of all SNPs used in K13.
 }
 \keyword{datasets}
+

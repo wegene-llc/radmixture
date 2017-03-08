@@ -2,16 +2,17 @@
 % Please edit documentation in R/em.R
 \name{fFixEm}
 \alias{fFixEm}
-\title{EM for fixed F}
+\title{EM when f is fixed}
 \usage{
-fFixEm(gnew, qnew, f, acc, max.iter = 3, tol = 1e-04, pubdata = NULL)
+fFixEm(gnew, qnew, f, acc, tol = 1e-4, pubdata)
 }
 \arguments{
-\item{gnew}{Integer which length is the number of SNPs used in calculation.}
+\item{gnew}{Genotype matrix. The number of row present in gnew is 1 and the number
+of column is the number of SNPs.}
 
-\item{qnew}{Initial q used in calculation. Numeric. Sum(q) must be 1.}
+\item{qnew}{Initial q used in calculation. A vector. sum(q) must be 1.}
 
-\item{f}{Allele frequencies which was learned from the reference panels.}
+\item{f}{Allele frequencies learned from the reference panels.}
 
 \item{acc}{a logical value indicating whether use quasi-Newton accelerated EM or not.}
 
@@ -26,6 +27,6 @@ dataset which is not in this package.}
 Estimation results of q and the loglikelihood value of each iteration.
 }
 \description{
-This function is for projection analysis which is an efficient way
-of estimating individual ancestry  with allele frequencies learned from the reference panels.
+This function can be used for ancestry analysis when frequency matrix is fixed.
 }
+

@@ -209,11 +209,19 @@ gg <- function(ped, f) {
     }
     del <- which(!is.na(del))
     # generate two genotypes
-    a1 <- a1[, -del]
-    a2 <- a2[, -del]
-    a <- a[, -del]
-    major <- major[-del]
-    minor <- minor[-del]
+    if (length(del) == 0) {
+        a1 <- a1
+        a2 <- a2
+        a <- a
+        major <- major
+        minor <- minor
+    } else {
+        a1 <- a1[, -del]
+        a2 <- a2[, -del]
+        a <- a[, -del]
+        major <- major[-del]
+        minor <- minor[-del]
+    }
     genotype <- matrix(NA, 2, ncol(a))
     genotype[1, ] <- 10 * major + major
     genotype[2, ] <- 10 * minor + minor
@@ -265,4 +273,4 @@ tfrd <- function(genotype, map, referenceped, f) {
                 so your result might be unreasonable!")
     }
     return(list(g = gf$g, f = gf$f))
-    }
+}

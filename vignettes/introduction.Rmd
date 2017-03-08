@@ -19,7 +19,10 @@ This document introduces you how to use this package.
 ```r
 devtools::install_github("wegene-llc/radmixture")
 ```
-- Wait for CRAN release!
+- Install the latest version from CRAN
+```r
+install.packages("radmixture")
+```
 
 First, you must prepare your raw data file as follow:
 

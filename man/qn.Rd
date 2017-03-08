@@ -2,10 +2,9 @@
 % Please edit documentation in R/qn.R
 \name{qn}
 \alias{qn}
-\title{quasi-Newton acceleration}
+\title{quasi-Newton algorithm for ancestry analysis}
 \usage{
-qn(g, q, f, tol = 1e-04, method = c("EM", "BR"), model = c("supervised",
-  "unsupervised"))
+qn(g, q, f, tol = 1e-4, method, model)
 }
 \arguments{
 \item{g}{Genotype matrix with dimensions \eqn{n × p}, where n is sample size
@@ -29,3 +28,4 @@ Estimation results of q, f and the loglikelihood value of each iteration.
 \description{
 Use quasi-Newton algorithm to accelerate EM or block relaxation.
 }
+

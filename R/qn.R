@@ -1,5 +1,6 @@
-#' quasi-Newton acceleration
+#' @title quasi-Newton algorithm for ancestry analysis
 #' @description Use quasi-Newton algorithm to accelerate EM or block relaxation.
+#' @usage qn(g, q, f, tol = 1e-4, method, model)
 #' @param g Genotype matrix with dimensions \eqn{n × p}, where n is sample size
 #' and p is the number of SNPs.
 #' @param q Ancestry coefficient matrix with dimensions \eqn{n × K}, where n
@@ -14,6 +15,15 @@
 
 qn <- function(g, q, f, tol = 1e-4, method = c("EM", "BR"),
                model = c("supervised", "unsupervised")) {
+    if (!is.matrix(g)) {
+        stop("g should be a matrix")
+    }
+    if (!is.matrix(q)) {
+        stop("q should be a matrix")
+    }
+    if (!is.matrix(f)) {
+        stop("f should be a matrix")
+    }
     em_res <- em(g, q, f, acc = T, max.iter = 5, model = model)
     if (method == "EM") {
         qvector <- em_res$qvector
@@ -84,14 +94,17 @@ qn <- function(g, q, f, tol = 1e-4, method = c("EM", "BR"),
 }
 
 
-#' qn for fixed F
+#' @title quasi-Newton when f is fixed
+#' @description quasi-Newton for ancestry analysis when F is fixed
+#' @usage fFixQN(gnew, qnew, f, tol, method, pubdata)
 #' @param gnew Integer which length is the number of SNPs used in calculation.
-#' @param qnew Initial q used in calculation. Numeric. Sum(q) must be 1.
+#' @param qnew Initial q used in calculation. A vector. Sum(q) must be 1.
 #' @param f Allele frequencies learned from the reference panels.
 #' @param tol Tolerance, the default value is 1e-4.
 #' @param method Choose which algorithm you want to use. EM or BR.
 #' @param pubdata You can choose a public dataset here, E11 or K13. You also can use other public
 #' dataset which is not in this package.
+#' @return Estimation results of q and the loglikelihood value of each iteration.
 #' @export
 
 fFixQN <- function(gnew, qnew, f, tol = 1e-4,
