@@ -98,11 +98,11 @@ qn <- function(g, q, f, tol = 1e-4, method = c("EM", "BR"),
 #' @description quasi-Newton for ancestry analysis when F is fixed
 #' @usage fFixQN(gnew, qnew, f, tol, method, pubdata)
 #' @param gnew Integer which length is the number of SNPs used in calculation.
-#' @param qnew Initial q used in calculation. A vector. Sum(q) must be 1.
+#' @param qnew Initial q used in calculation. A vector. sum(q) must be 1.
 #' @param f Allele frequencies learned from the reference panels.
 #' @param tol Tolerance, the default value is 1e-4.
 #' @param method Choose which algorithm you want to use. EM or BR.
-#' @param pubdata You can choose a public dataset here, E11 or K13. You also can use other public
+#' @param pubdata You can choose a public dataset here, E11, K13, K4, K12b, K7b, World9. You also can use other public
 #' dataset which is not in this package.
 #' @return Estimation results of q and the loglikelihood value of each iteration.
 #' @export
@@ -158,6 +158,20 @@ fFixQN <- function(gnew, qnew, f, tol = 1e-4,
                             "East_Asian", "Mediterranean", "Australasian",
                             "Arctic", "West_Asian", "North_European",
                             "South_Asian", "East_African")
+    } else if (pubdata == "K4") {
+        colnames(qnew) <- c("European", "Asian", "African", "Amerindian")
+    } else if (pubdata == "K7b") {
+        colnames(qnew) <- c("South_Asian", "West_Asian", "Siberian", "African",
+                            "Southern", "Atlantic_Baltic", "East_Asian") 
+    } else if (pubdata == "World9") {
+        colnames(qnew) <- c("Amerindian", "East_Asian", "African", "Atlantic_Baltic",
+                            "Australasian", "Siberian", "Caucasus_Gedrosia", "Southern",
+                            "South_Asian")
+    } else if (pubdata == "K12b") {
+        colnames(qnew) <- c("Gedrosia", "Siberian", "Northwest_African",
+                            "Southeast_Asian", "Atlantic_Med", "North_European",
+                            "South_Asian", "East_African", "Southwest_Asian",
+                            "East_Asian", "Caucasus", "Sub_Saharan")
     }
     return(list(q = qnew, f = f, loglike = loglike[1:iter]))
 }

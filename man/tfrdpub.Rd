@@ -23,4 +23,3 @@ A list contains g, q, f which can be used for calculation.
 Transfer personal genotype raw data to g matrix which the number of row is 1 and
 the number of column is the number of SNPs used here.
 }
-

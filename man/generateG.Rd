@@ -16,4 +16,3 @@ genotype matrix
 \description{
 This function can be used to transfer a ped file to g matrix
 }
-

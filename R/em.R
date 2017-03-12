@@ -109,7 +109,7 @@ em <- function(g, q, f, acc, max.iter = 3, tol = 1e-4,
 
 #' @title EM when f is fixed
 #' @description This function can be used for ancestry analysis when frequency matrix is fixed.
-#' @usage fFixEm(gnew, qnew, f, acc, tol = 1e-4, pubdata)
+#' @usage fFixEm(gnew, qnew, f, acc, max.iter, tol = 1e-4, pubdata)
 #' @param gnew Genotype matrix. The number of row present in gnew is 1 and the number
 #' of column is the number of SNPs.
 #' @param qnew Initial q used in calculation. A vector. sum(q) must be 1.
@@ -117,7 +117,7 @@ em <- function(g, q, f, acc, max.iter = 3, tol = 1e-4,
 #' @param acc a logical value indicating whether use quasi-Newton accelerated EM or not.
 #' @param max.iter an integer. If acc is TRUE, the number of iterations must be set.
 #' @param tol Tolerance. If acc is FALSE, tol must be set. The default is 1e-4.
-#' @param pubdata You can choose a public dataset here, E11 or K13. You also can use other public
+#' @param pubdata You can choose a public dataset here, E11, K13, K4, K12b, K7b, World9. You also can use other public
 #' dataset which is not in this package.
 #' @return Estimation results of q and the loglikelihood value of each iteration.
 #' @export
@@ -177,6 +177,20 @@ fFixEm <- function(gnew, qnew, f, acc, max.iter = 3,
                                 "East_Asian", "Mediterranean", "Australasian",
                                 "Arctic", "West_Asian", "North_European",
                                 "South_Asian", "East_African")
+        } else if (pubdata == "K4") {
+            colnames(qnew) <- c("European", "Asian", "African", "Amerindian")
+        } else if (pubdata == "K7b") {
+            colnames(qnew) <- c("South_Asian", "West_Asian", "Siberian", "African",
+                                "Southern", "Atlantic_Baltic", "East_Asian") 
+        } else if (pubdata == "World9") {
+            colnames(qnew) <- c("Amerindian", "East_Asian", "African", "Atlantic_Baltic",
+                                "Australasian", "Siberian", "Caucasus_Gedrosia", "Southern",
+                                "South_Asian")
+        } else if (pubdata == "K12b") {
+            colnames(qnew) <- c("Gedrosia", "Siberian", "Northwest_African",
+                                "Southeast_Asian", "Atlantic_Med", "North_European",
+                                "South_Asian", "East_African", "Southwest_Asian",
+                                "East_Asian", "Caucasus", "Sub_Saharan")
         }
         return(list(loglike = loglikem[1:iter], q = qnew))
     }

@@ -10,4 +10,3 @@ radmixture is an R package for ancestry calculation. It provides both supervised
 unsupervised learning with several algorithms for researchers and DNA customers.
 see README on \href{https://github.com/wegene-llc/radmixture}{GitHub}
 }
-

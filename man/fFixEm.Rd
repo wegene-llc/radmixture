@@ -4,7 +4,7 @@
 \alias{fFixEm}
 \title{EM when f is fixed}
 \usage{
-fFixEm(gnew, qnew, f, acc, tol = 1e-4, pubdata)
+fFixEm(gnew, qnew, f, acc, max.iter, tol = 1e-4, pubdata)
 }
 \arguments{
 \item{gnew}{Genotype matrix. The number of row present in gnew is 1 and the number
@@ -20,7 +20,7 @@ of column is the number of SNPs.}
 
 \item{tol}{Tolerance. If acc is FALSE, tol must be set. The default is 1e-4.}
 
-\item{pubdata}{You can choose a public dataset here, E11 or K13. You also can use other public
+\item{pubdata}{You can choose a public dataset here, E11, K13, K4, K12b, K7b, World9. You also can use other public
 dataset which is not in this package.}
 }
 \value{
@@ -29,4 +29,3 @@ Estimation results of q and the loglikelihood value of each iteration.
 \description{
 This function can be used for ancestry analysis when frequency matrix is fixed.
 }
-

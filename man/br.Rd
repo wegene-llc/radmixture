@@ -30,4 +30,3 @@ Estimation results of q, f and the loglikelihood value of each iteration.
 \description{
 This function is also used for estimating Q and F but faster than EM.
 }
-

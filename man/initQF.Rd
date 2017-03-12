@@ -4,7 +4,7 @@
 \alias{initQF}
 \title{Initialize Q and F}
 \usage{
-initQF(g, pop, alpha = NULL, K = NULL, model = "supervised")
+initQF(g, pop = NULL, alpha = NULL, K = NULL, model)
 }
 \arguments{
 \item{g}{genotype matrix}
@@ -28,4 +28,3 @@ A list contains q and f matrix.
 This function could help you initialize Q and F matrix conveniently especially when 
 you intend to use supervised learning.
 }
-

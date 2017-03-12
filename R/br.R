@@ -99,7 +99,7 @@ br <- function(g, q, f, acc, max.iter = 3, tol = 1e-4,
 #' @param acc a logical value indicating whether use quasi-Newton accelerated BR or not.
 #' @param max.iter If acc = T, max.iter must be set, the default is 3.
 #' @param tol If acc = F, tolerance must be set, the default is 1e-4.
-#' @param pubdata You can choose a public dataset here, E11 or K13. You also can use other public
+#' @param pubdata You can choose a public dataset here, E11, K13, K4, K12b, K7b, World9. You also can use other public
 #' dataset which is not in this package.
 #' @return Estimation results of q and the loglikelihood value of each iteration.
 #' @export
@@ -155,6 +155,20 @@ fFixBr <- function(gnew, qnew, f, acc, max.iter = 3,
                                 "East_Asian", "Mediterranean", "Australasian",
                                 "Arctic", "West_Asian", "North_European",
                                 "South_Asian", "East_African")
+        } else if (pubdata == "K4") {
+            colnames(qnew) <- c("European", "Asian", "African", "Amerindian")
+        } else if (pubdata == "K7b") {
+            colnames(qnew) <- c("South_Asian", "West_Asian", "Siberian", "African",
+                                "Southern", "Atlantic_Baltic", "East_Asian") 
+        } else if (pubdata == "World9") {
+            colnames(qnew) <- c("Amerindian", "East_Asian", "African", "Atlantic_Baltic",
+                                "Australasian", "Siberian", "Caucasus_Gedrosia", "Southern",
+                                "South_Asian")
+        } else if (pubdata == "K12b") {
+            colnames(qnew) <- c("Gedrosia", "Siberian", "Northwest_African",
+                                "Southeast_Asian", "Atlantic_Med", "North_European",
+                                "South_Asian", "East_African", "Southwest_Asian",
+                                "East_Asian", "Caucasus", "Sub_Saharan")
         }
         res <- list(q = qnew, loglike = logbl[1:iter])
         return(res)

@@ -64,7 +64,7 @@ generateG <- function(rawped) {
 #' @title Initialize Q and F
 #' @description This function could help you initialize Q and F matrix conveniently especially when 
 #' you intend to use supervised learning.
-#' @usage initQF(g, pop, alpha = NULL, K = NULL, model = "supervised")
+#' @usage initQF(g, pop = NULL, alpha = NULL, K = NULL, model)
 #' @param g genotype matrix
 #' @param pop A data.frame. If you intend to do supervised learning, 
 #' you must specify the ancestries of the reference individuals.

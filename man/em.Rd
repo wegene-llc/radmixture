@@ -30,4 +30,3 @@ Estimation results of q, f and the loglikelihood value of each iteration.
 \description{
 The EM algorithm could be used for estimating the Q and F matrix.
 }
-

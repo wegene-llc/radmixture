@@ -27,7 +27,7 @@ URL: https://github.com/wegene-llc/radmixture
 BugReports: https://github.com/wegene-llc/radmixture/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 NeedsCompilation: yes
 VignetteBuilder: knitr
 ByteCompile: true

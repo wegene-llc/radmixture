@@ -20,7 +20,7 @@ of column is the number of SNPs.}
 
 \item{tol}{If acc = F, tolerance must be set, the default is 1e-4.}
 
-\item{pubdata}{You can choose a public dataset here, E11 or K13. You also can use other public
+\item{pubdata}{You can choose a public dataset here, E11, K13, K4, K12b, K7b, World9. You also can use other public
 dataset which is not in this package.}
 }
 \value{
@@ -29,4 +29,3 @@ Estimation results of q and the loglikelihood value of each iteration.
 \description{
 This function can be used for ancestry analysis when frequency matrix is fixed.
 }
-

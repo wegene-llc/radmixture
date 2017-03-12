@@ -28,4 +28,3 @@ Estimation results of q, f and the loglikelihood value of each iteration.
 \description{
 Use quasi-Newton algorithm to accelerate EM or block relaxation.
 }
-
