@@ -1,5 +1,9 @@
 # radmixture
 
+[![CRAN](https://www.r-pkg.org/badges/version/radmixture)](https://cran.r-project.org/package=radmixture)
+![Downloads](https://cranlogs.r-pkg.org/badges/radmixture)
+[![Build status](https://ci.appveyor.com/api/projects/status/wj5afxb1v42h8oui?svg=true)](https://ci.appveyor.com/project/wegene-llc/radmixture)
+
 This is an introduction to radmixture which could help you with estimating individual ancestries from large SNP genotype data. 
 
 This document introduces you how to use this package. 
