@@ -3,13 +3,13 @@ Title: Calculate Population Stratification
 Version: 0.0.1
 Date: 2017-02-20
 Authors@R: c(
-    person("Beilei", "Bian", role = c("aut", "cre"), email = "bianbeilei@wegene.com"),
+    person("Beilei", "Bian", role = c("aut", "cre"), email = "bblzuiaimessi@gmail.com"),
     person("Dajun", "Luo", role = "ctb", comment = "R's C API"),
     person("Gang", "Chen", role = "ctb"),
     person("Senwei", "Tang", role = "ctb"),
     person(family = "WeGene", role = "cph")
     )
-Maintainer: Beilei Bian <bianbeilei@wegene.com>
+Maintainer: Dajun Luo <luodj@wegene.com>
 Description: Implementation of ADMIXTURE for individual ancestry inference in R.
 Depends:
     R (>= 3.1.0)
